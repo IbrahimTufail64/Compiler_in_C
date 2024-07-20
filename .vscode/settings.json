@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "memory.h": "c",
+        "array": "c",
+        "compare": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "utility": "c",
+        "ostream": "c"
+    }
+}
