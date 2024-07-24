@@ -5,15 +5,27 @@
 
 Vm vm;
 
-initVM(){
-    
+void initVM(){
+    resetStack();
 }
 
-freeVM(){
-
+void freeVM(){
+    resetStack();
 }
 
+static void resetStack(){
+    vm.stackTop = vm.stack;
+}
 
+void push(Value value){
+    *vm.stackTop = value;
+     vm.stackTop++;
+}
+
+Value pop(){
+    vm.stackTop--;
+    return *vm.stackTop;
+}
 
 static InterpretResult run(){
     #define READ_BYTE() (*vm.ip++)
@@ -21,6 +33,12 @@ static InterpretResult run(){
     
     for(;;){
         #ifdef DEBUG_TRACE_EXECUTION
+          for(Value* slot; slot < vm.stack; slot++){
+            printf("[ ");
+            printValue(*slot);
+            printf(" ]");
+          }
+          printf("\n");
           disassembleInstruction(vm.chunk, (int)(vm.ip- vm.chunk->code));
         #endif
         uint8_t instruction = READ_BYTE();
